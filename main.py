@@ -1,15 +1,11 @@
 import tkinter as tk
 import numpy as np
 import laspy
-import matplotlib.pyplot as plt
 from tkinter import Tk
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from functions import *
-
-
-
 
 
 def main():
@@ -85,13 +81,14 @@ def main():
     z_up.insert(-1, '0')
     z_up.grid(row=1, column=2)
 
-    ttk.Button(root, text="Run", command=lambda: update(root, ax, canvas, p_x.copy(), p_y.copy(), p_z.copy(),
-                                                        int(x_down.get()), int(x_up.get()),
-                                                        int(y_down.get()), int(y_up.get()),
-                                                        int(z_down.get()), int(z_up.get()),
-                                                        min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z),
+    ttk.Button(root, text="Filter", command=lambda: update(root, ax, canvas, p_x.copy(), p_y.copy(), p_z.copy(),
+                                                           int(x_down.get()), int(x_up.get()),
+                                                           int(y_down.get()), int(y_up.get()),
+                                                           int(z_down.get()), int(z_up.get()),
+                                                           min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z),
                padding=10).grid(row=2)
 
+    root.protocol("WM_DELETE_WINDOW", lambda: root.quit())  # handling 'X' button on the main window
     root.mainloop()
 
 
