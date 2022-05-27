@@ -1,19 +1,15 @@
 import matplotlib.pyplot as plt
 
 
-def filter_cloud(p_x, p_y, p_z, cuts):
-    # axis limits
-    min_of_x, max_of_x = min(p_x), max(p_x)
-    min_of_y, max_of_y = min(p_y), max(p_y)
-    min_of_z, max_of_z = min(p_z), max(p_z)
+def filter_cloud(p_x, p_y, p_z, x_down, x_up, y_down, y_up, z_down, z_up,
+                 min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z):
 
-    print(cuts['x_down'])
-    x_down_cut = int(cuts['x_down'].get())
-    x_up_cut = int(cuts['x_up'].get())
-    y_down_cut = int(cuts['y_down'].get())
-    y_up_cut = int(cuts['y_up'].get())
-    z_down_cut = int(cuts['z_down'].get())
-    z_up_cut = int(cuts['z_up'].get())
+    x_down_cut = x_down
+    x_up_cut = x_up
+    y_down_cut = y_down
+    y_up_cut = y_up
+    z_down_cut = z_down
+    z_up_cut = z_up
 
     p_x[p_x > max_of_x - x_up_cut / 100 * (max_of_x - min_of_x)] = None
     p_x[p_x < min_of_x + x_down_cut / 100 * (max_of_x - min_of_x)] = None
@@ -27,16 +23,15 @@ def filter_cloud(p_x, p_y, p_z, cuts):
 
 
 # update plot
-def update(root, ax, canvas, p_x, p_y, p_z, cuts):
+def update(root, ax, canvas, p_x, p_y, p_z, x_down, x_up, y_down, y_up, z_down, z_up,
+           min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z):
     ax.clear()
     # plotting filtered points
-    min_of_x, max_of_x = min(p_x), max(p_x)
-    min_of_y, max_of_y = min(p_y), max(p_y)
-    min_of_z, max_of_z = min(p_z), max(p_z)
     ax.set_xlim3d(min_of_x, max_of_x)
     ax.set_ylim3d(min_of_y, max_of_y)
     ax.set_zlim3d(min_of_z, max_of_z)
-    p_x_upd, p_y_upd, p_z_upd = filter_cloud(p_x, p_y, p_z, cuts)
+    p_x_upd, p_y_upd, p_z_upd = filter_cloud(p_x, p_y, p_z, x_down, x_up, y_down, y_up, z_down, z_up,
+                                             min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z)
     ax.scatter(p_x_upd, p_y_upd, p_z_upd, c='r', marker='o', s=1)
     canvas.draw()
     root.update()

@@ -9,6 +9,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from functions import *
 
 
+
+
+
 def main():
     # reading las file and copy points
     input_las = laspy.file.File("chmura.las", mode="r")
@@ -51,22 +54,42 @@ def main():
     # add widgets
     frame = ttk.Frame(root, padding=10)
     frame.grid(row=1)
-    cuts = {
-        'x_down': tk.StringVar(),
-        'x_up': tk.StringVar(),
-        'y_down': tk.StringVar(),
-        'y_up': tk.StringVar(),
-        'z_down': tk.StringVar(),
-        'z_up': tk.StringVar()
-    }
-    ttk.Entry(frame, textvariable=cuts['x_down']).grid(row=1, column=0)
-    ttk.Entry(frame, textvariable=cuts['x_up']).grid(row=0, column=0)
-    ttk.Entry(frame, textvariable=cuts['y_down']).grid(row=1, column=1)
-    ttk.Entry(frame, textvariable=cuts['y_up']).grid(row=0, column=1)
-    ttk.Entry(frame, textvariable=cuts['z_down']).grid(row=1, column=2)
-    ttk.Entry(frame, textvariable=cuts['z_up']).grid(row=0, column=2)
 
-    ttk.Button(root, text="Run", command=lambda: update(root, ax, canvas, p_x, p_y, p_z, cuts),
+    ttk.Label(frame, text='Cut from west [%]:').grid(row=2, column=0)
+    x_down = tk.Entry(frame)
+    x_down.insert(-1, '0')
+    x_down.grid(row=3, column=0)
+
+    ttk.Label(frame, text='Cut from east [%]:').grid(row=0, column=0)
+    x_up = tk.Entry(frame)
+    x_up.insert(-1, '0')
+    x_up.grid(row=1, column=0)
+
+    ttk.Label(frame, text='Cut from south [%]:').grid(row=2, column=1)
+    y_down = tk.Entry(frame)
+    y_down.insert(-1, '0')
+    y_down.grid(row=3, column=1)
+
+    ttk.Label(frame, text='Cut from north [%]:').grid(row=0, column=1)
+    y_up = tk.Entry(frame)
+    y_up.insert(-1, '0')
+    y_up.grid(row=1, column=1)
+
+    ttk.Label(frame, text='Cut from down [%]:').grid(row=2, column=2)
+    z_down = tk.Entry(frame)
+    z_down.insert(-1, '0')
+    z_down.grid(row=3, column=2)
+
+    ttk.Label(frame, text='Cut from up [%]:').grid(row=0, column=2)
+    z_up = tk.Entry(frame)
+    z_up.insert(-1, '0')
+    z_up.grid(row=1, column=2)
+
+    ttk.Button(root, text="Run", command=lambda: update(root, ax, canvas, p_x.copy(), p_y.copy(), p_z.copy(),
+                                                        int(x_down.get()), int(x_up.get()),
+                                                        int(y_down.get()), int(y_up.get()),
+                                                        int(z_down.get()), int(z_up.get()),
+                                                        min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z),
                padding=10).grid(row=2)
 
     root.mainloop()
