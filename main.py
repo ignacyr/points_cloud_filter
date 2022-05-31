@@ -3,6 +3,8 @@ import numpy as np
 import laspy
 from tkinter import Tk
 from tkinter import ttk
+
+from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from functions import *
@@ -20,6 +22,9 @@ def main():
     las_offset_y = input_las.header.offset[1]
     las_scale_z = input_las.header.scale[2]
     las_offset_z = input_las.header.offset[2]
+
+    # close file
+    input_las.close()
 
     # calculating coordinates
     p_x = np.array((point_records['point']['X'] * las_scale_x) + las_offset_x)

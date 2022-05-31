@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 
 def filter_cloud(p_x, p_y, p_z, x_down, x_up, y_down, y_up, z_down, z_up,
                  min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z):
