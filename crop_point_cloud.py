@@ -1,3 +1,5 @@
+import sys
+
 import tkinter as tk
 import numpy as np
 import laspy
@@ -7,12 +9,17 @@ from tkinter import ttk
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from functions import *
+from filtering import *
 
 
 def main():
+    try:
+        input_filename = f"input_data_las/{sys.argv[1]}"
+    except IndexError:
+        input_filename = "input_data_las/chmura.las"  # default
+
     # reading las file and copy points
-    input_las = laspy.file.File("chmura.las", mode="r")
+    input_las = laspy.file.File(input_filename, mode="r")
     point_records = input_las.points.copy()
 
     # getting scaling and offset parameters
@@ -86,12 +93,28 @@ def main():
     z_up.insert(-1, '0')
     z_up.grid(row=1, column=2)
 
-    ttk.Button(root, text="Filter", command=lambda: update(root, ax, canvas, p_x.copy(), p_y.copy(), p_z.copy(),
-                                                           int(x_down.get()), int(x_up.get()),
-                                                           int(y_down.get()), int(y_up.get()),
-                                                           int(z_down.get()), int(z_up.get()),
-                                                           min_of_x, max_of_x, min_of_y, max_of_y, min_of_z, max_of_z),
-               padding=10).grid(row=2)
+    ttk.Label(frame, text='Scale:').grid(row=0, column=3)
+    scale = tk.Entry(frame)
+    scale.insert(-1, '1')
+    scale.grid(row=1, column=3)
+
+    ttk.Button(frame, text="Filter", command=lambda: update_plot(root, ax, canvas, p_x.copy(), p_y.copy(), p_z.copy(),
+                                                                 int(x_down.get()), int(x_up.get()),
+                                                                 int(y_down.get()), int(y_up.get()),
+                                                                 int(z_down.get()), int(z_up.get()),
+                                                                 min_of_x, max_of_x, min_of_y,
+                                                                 max_of_y, min_of_z, max_of_z,
+                                                                 int(scale.get())),
+               padding=10).grid(row=4, column=1)
+
+    ttk.Button(frame, text="Save as csv", command=lambda: save_as_csv(p_x.copy(), p_y.copy(), p_z.copy(),
+                                                                      int(x_down.get()), int(x_up.get()),
+                                                                      int(y_down.get()), int(y_up.get()),
+                                                                      int(z_down.get()), int(z_up.get()),
+                                                                      min_of_x, max_of_x, min_of_y,
+                                                                      max_of_y, min_of_z, max_of_z,
+                                                                      int(scale.get())),
+               padding=10).grid(row=4, column=2)
 
     root.protocol("WM_DELETE_WINDOW", lambda: root.quit())  # handling 'X' button on the main window
     root.mainloop()
