@@ -20,6 +20,8 @@ def filter_cloud(p_x, p_y, p_z, x_down, x_up, y_down, y_up, z_down, z_up,
     p_z[p_z > max_of_z - z_up_cut / 100 * (max_of_z - min_of_z)] = None
     p_z[p_z < min_of_z + z_down_cut / 100 * (max_of_z - min_of_z)] = None
 
+    # print(sum(p_z) / len(p_z))  # average value of height (z)
+
     for i, _ in enumerate(p_x):
         if i % scale != 0:
             p_x[i], p_y[i], p_z[i] = None, None, None
