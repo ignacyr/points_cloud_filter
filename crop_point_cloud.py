@@ -16,7 +16,7 @@ def main():
     try:
         input_filename = f"input_data_las/{sys.argv[1]}"
     except IndexError:
-        input_filename = "input_data_las/chmura.las"  # default
+        input_filename = "input_data_las/duza_chmura_zmniejszona.las"  # default
 
     # reading las file and copy points
     input_las = laspy.file.File(input_filename, mode="r")
@@ -44,7 +44,7 @@ def main():
     min_of_z, max_of_z = min(p_z), max(p_z)
 
     # plotting points before filtering
-    fig = plt.figure()
+    fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(p_x, p_y, p_z, c='r', marker='o', s=1)
     ax.set_xlim3d(min_of_x, max_of_x)
